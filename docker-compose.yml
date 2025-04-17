@@ -20,9 +20,7 @@ services:
       - "USE_WORKLOAD_IDENTITY_AUTH=false"
     networks:
       - backend_services
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
+  
   product-service:
     image: lolaakin/product-service:latest
     container_name: 'product-service'
