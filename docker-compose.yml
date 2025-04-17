@@ -12,14 +12,12 @@ services:
       timeout: 10s
       retries: 5
     environment:
-      - ORDER_QUEUE_URI=amqps://my-eventbus-8915.servicebus.windows.net
-      - ORDER_QUEUE_PORT=5671
+      - ORDER_QUEUE_HOSTNAME=my-eventbus-8915.servicebus.windows.net
       - ORDER_QUEUE_USERNAME=RootManageSharedAccessKey
       - ORDER_QUEUE_PASSWORD=HLF3Z+u8+fNAbr5THN0iRJ1PLby2GGObJ+ASbCfceXI=
       - ORDER_QUEUE_NAME=orders
-      - ORDER_DB_URI=mongodb://mongodb:27017
-      - ORDER_DB_NAME=orderdb
-      - ORDER_DB_COLLECTION_NAME=orders
+      - ORDER_QUEUE_PORT=5671
+      - ORDER_QUEUE_TRANSPORT=tls
       - USE_WORKLOAD_IDENTITY_AUTH=false
     networks:
       - backend_services
