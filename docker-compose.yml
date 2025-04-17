@@ -1,24 +1,7 @@
 version: "3.7"
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: 'rabbitmq'
-    restart: always
-    environment:
-      - "RABBITMQ_DEFAULT_USER=username"
-      - "RABBITMQ_DEFAULT_PASS=password"
-    ports:
-      - 15672:15672
-      - 5672:5672
-    healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - backend_services
   order-service:
-    image: ramymohamed/order-service-l8:latest
+    image: lolaakin/order-service:latest
     container_name: 'order-service'
     restart: always
     ports:
@@ -29,19 +12,19 @@ services:
       timeout: 10s
       retries: 5
     environment:
-      - ORDER_QUEUE_HOSTNAME=rabbitmq
-      - ORDER_QUEUE_PORT=5672
-      - ORDER_QUEUE_USERNAME=username
-      - ORDER_QUEUE_PASSWORD=password
-      - ORDER_QUEUE_NAME=orders
-      - ORDER_QUEUE_RECONNECT_LIMIT=3
+      - "ORDER_QUEUE_HOSTNAME=my-eventbus-8915.servicebus.windows.net"
+      - "ORDER_QUEUE_PORT=5671"
+      - "ORDER_QUEUE_USERNAME=RootManageSharedAccessKey"
+      - "ORDER_QUEUE_PASSWORD=HLF3Z+u8+fNAbr5THN0iRJ1PLby2GGObJ+ASbCfceXI="
+      - "ORDER_QUEUE_NAME=orders"
+      - "USE_WORKLOAD_IDENTITY_AUTH=false"
     networks:
       - backend_services
     depends_on:
       rabbitmq:
         condition: service_healthy
   product-service:
-    image: ramymohamed/product-service-l8:latest
+    image: lolaakin/product-service:latest
     container_name: 'product-service'
     restart: always
     ports:
